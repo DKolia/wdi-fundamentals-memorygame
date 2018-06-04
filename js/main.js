@@ -1,4 +1,4 @@
-//Array with card values
+//Array with card values and types
 var cards = [
   {
     rank: "queen",
@@ -22,25 +22,42 @@ var cards = [
   },
 ];
 
+
+//Define a host the cards interacted with
 var cardsInPlay = []
 function checkForMatch(){
   if (cardsInPlay[0] === cardsInPlay[1]) {
-    console.log("You found a match!");
+    alert("You found a match!");
     }
   else {
-    console.log("Sorry, try again.");
+    alert("Sorry, try again.");
   }
 }
 
 
 //Game logic to check for matches
-function flipCard(cardId) {
+function flipCard() {
+  var cardId = this.getAttribute("data-id");
   cardsInPlay.push(cards[cardId].rank);
   console.log("User flipped " + cards[cardId].rank);
   console.log(cards[cardId].suit);
   console.log(cards[cardId].cardImage);
+  this.setAttribute("src", cards[cardId].cardImage);
   checkForMatch();
 }
 
-flipCard(0);
-flipCard(2);
+
+//Function for populating game board
+function createBoard(){
+  for (var i = 0; i < cards.length; i++) {
+    var cardElement = document.createElement("img");
+    cardElement.setAttribute("src", "images/back.png");
+    cardElement.setAttribute("data-id", i);
+    cardElement.addEventListener("click", flipCard);
+    document.getElementById("game-board").appendChild(cardElement);
+  }
+}
+
+
+//This function call begins the game
+createBoard();
